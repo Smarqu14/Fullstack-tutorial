@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 import Header from './Header';
 import ContestPreview from './ContestPreview';
@@ -10,28 +11,34 @@ class App extends React.Component {
 
     this.state = {
       pageHeader: 'Naming Contests',
+      contests: [],
     };
   }
 
   componentDidMount() {
-    console.log('DID MOUNT');
-    // AJAX DATA
-    // FIRE TIMERS, LISTENERS
+    axios
+      .get('/api/contests')
+      .then((res) => {
+        this.setState({
+          contests: res.data.contests,
+        });
+      })
+      .catch(console.error);
   }
 
-  // componentWillUnmount() {
-  //   console.log('WILL UNMOUNT');
-  //   // FIRE TIMERS, LISTENERS CLEAN
-  // }
+  componentWillUnmount() {
+    console.log('WILL UNMOUNT');
+    //   // FIRE TIMERS, LISTENERS CLEAN
+  }
   render() {
-    const { pageHeader } = this.state;
+    const { pageHeader, contests } = this.state;
 
     return (
       <div className='App'>
         <Header message={pageHeader} />
         <div>
-          {this.props.contest.map((contest) => {
-            return <ContestPreview {...contest} />;
+          {contests.map((contest) => {
+            return <ContestPreview key={contest.id} {...contest} />;
           })}
         </div>
       </div>
