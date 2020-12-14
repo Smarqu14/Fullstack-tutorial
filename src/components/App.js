@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Header from './Header';
 import ContestList from './ContestList';
+import Contest from './Contest';
 
 const pushState = (obj, url) => window.history.pushState(obj, '', url);
 
@@ -29,19 +30,34 @@ class App extends React.Component {
       },
       `/contest/${contestId}`
     );
+
+    this.setState({
+      pageHeader: this.state.contests[contestId].contestName,
+      currentContestId: contestId,
+    });
   };
 
+  currentContent = () => {
+    if (this.state.currentContestId) {
+      return <Contest {...this.state.contests[this.state.currentContestId]} />;
+    } else {
+      <ContestList
+        contests={this.state.contests}
+        onContestClick={this.fetchContest}
+      />;
+    }
+  };
   render() {
-    const { pageHeader, contests } = this.state;
+    const { pageHeader, contests, currentContestId } = this.state;
 
     return (
       <div className='App'>
         <Header message={pageHeader} />
-        <ContestList contests={contests} onContestClick={this.fetchContest} />
-        <div>
-          <h3>I am the shit</h3>
-          <h3>I am the shit</h3>
-        </div>
+        {currentContestId ? (
+          <Contest {...this.state.contests[this.state.currentContestId]} />
+        ) : (
+          <ContestList contests={contests} onContestClick={this.fetchContest} />
+        )}
       </div>
     );
   }
