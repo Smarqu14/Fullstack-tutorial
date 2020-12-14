@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
 import Header from './Header';
 import ContestPreview from './ContestPreview';
@@ -15,16 +14,7 @@ class App extends React.Component {
     };
   }
 
-  componentDidMount() {
-    axios
-      .get('/api/contests')
-      .then((res) => {
-        this.setState({
-          contests: res.data.contests,
-        });
-      })
-      .catch(console.error);
-  }
+  componentDidMount() {}
 
   componentWillUnmount() {
     console.log('WILL UNMOUNT');
@@ -40,6 +30,9 @@ class App extends React.Component {
           {contests.map((contest) => {
             return <ContestPreview key={contest.id} {...contest} />;
           })}
+        </div>
+        <div>
+          <h3>I am the shit</h3>
         </div>
       </div>
     );
