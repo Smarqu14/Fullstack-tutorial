@@ -11,7 +11,7 @@ class App extends React.Component {
 
     this.state = {
       pageHeader: 'Naming Contests',
-      contests: [],
+      contests: this.props.initialContests,
     };
   }
 
