@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const ContestPreview = (contest) => {
-  return (
-    <div className='ContestPreview'>
-      <div className='category-name'>{contest.categoryName}</div>
-      <div className='contest-name'>{contest.contestName}</div>
-    </div>
-  );
-};
+class ContestPreview extends Component {
+  handleclick = () => {
+    console.log(this.props.contest.contestName);
+  };
+  render() {
+    const { categoryName, contestName } = this.props.contest;
+    return (
+      <div className='ContestPreview link' onClick={this.handleclick}>
+        <div className='category-name'>{categoryName}</div>
+        <div className='contest-name'>{contestName}</div>
+      </div>
+    );
+  }
+}
 
 export default ContestPreview;

@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Header from './Header';
-import ContestPreview from './ContestPreview';
-
+import ContestList from './ContestList';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -20,18 +19,16 @@ class App extends React.Component {
     console.log('WILL UNMOUNT');
     //   // FIRE TIMERS, LISTENERS CLEAN
   }
+
   render() {
     const { pageHeader, contests } = this.state;
 
     return (
       <div className='App'>
         <Header message={pageHeader} />
+        <ContestList contests={contests} />
         <div>
-          {contests.map((contest) => {
-            return <ContestPreview key={contest.id} {...contest} />;
-          })}
-        </div>
-        <div>
+          <h3>I am the shit</h3>
           <h3>I am the shit</h3>
         </div>
       </div>
@@ -40,11 +37,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-App.propTypes = {
-  headerMessage: PropTypes.string,
-};
-
-App.defaultProps = {
-  headerMessage: 'hi',
-};
