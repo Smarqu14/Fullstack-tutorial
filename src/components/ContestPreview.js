@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 
 class ContestPreview extends Component {
   handleclick = () => {
-    console.log(this.props.contest.contestName);
+    this.props.onClick(this.props.contest.id);
   };
   render() {
     const { categoryName, contestName } = this.props.contest;
+
     return (
       <div className='ContestPreview link' onClick={this.handleclick}>
         <div className='category-name'>{categoryName}</div>

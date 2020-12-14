@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 
 import Header from './Header';
 import ContestList from './ContestList';
+
+const pushState = (obj, url) => window.history.pushState(obj, '', url);
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -19,6 +22,14 @@ class App extends React.Component {
     console.log('WILL UNMOUNT');
     //   // FIRE TIMERS, LISTENERS CLEAN
   }
+  fetchContest = (contestId) => {
+    pushState(
+      {
+        currentContestId: contestId,
+      },
+      `/contest/${contestId}`
+    );
+  };
 
   render() {
     const { pageHeader, contests } = this.state;
@@ -26,7 +37,7 @@ class App extends React.Component {
     return (
       <div className='App'>
         <Header message={pageHeader} />
-        <ContestList contests={contests} />
+        <ContestList contests={contests} onContestClick={this.fetchContest} />
         <div>
           <h3>I am the shit</h3>
           <h3>I am the shit</h3>
@@ -37,3 +48,11 @@ class App extends React.Component {
 }
 
 export default App;
+
+App.propTypes = {
+  headerMessage: PropTypes.string,
+};
+
+App.defaultProps = {
+  headerMessage: 'hi',
+};
