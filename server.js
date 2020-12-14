@@ -15,6 +15,7 @@ server.use(
 );
 server.set('view engine', 'ejs');
 
+import './serverRender';
 server.get('/', (req, res) => {
   res.render('index', {
     content: 'Hello world from <em>EJS</em>',
