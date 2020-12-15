@@ -6,4 +6,8 @@ class Contest extends Component {
   }
 }
 
+// Contest.propTypes = {
+//   description: PropTypes.string.isRequired,
+// };
+
 export default Contest;

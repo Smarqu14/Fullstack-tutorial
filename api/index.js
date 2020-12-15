@@ -1,5 +1,5 @@
 import express from 'express';
-import data from '../src/testData.json';
+import data from '../src/testData';
 
 const router = express.Router();
 const contests = data.contests.reduce((obj, contest) => {
@@ -12,10 +12,12 @@ router.get('/contests', (req, res) => {
     contests: contests,
   });
 });
+
 router.get('/contests/:contestId', (req, res) => {
   let contest = contests[req.params.contestId];
   contest.description =
-    'Occaecat dolor id eiusmod sit non adipisicing ipsum consectetur irure eiusmod dolore culpa incididunt magna. Sint cupidatat eiusmod mollit nulla incididunt cillum duis nisi quis incididunt qui fugiat aliquip id. Velit veniam nostrud pariatur irure cillum sint laborum ad. Ut reprehenderit consectetur exercitation laborum proident aute dolore ad ipsum exercitation. Ex laborum consectetur ipsum dolore aliqua occaecat aliqua. Incididunt laborum deserunt labore ipsum deserunt ipsum aliquip exercitation irure veniam ad amet. Consequat nulla cupidatat incididunt et labore enim aliquip eiusmod dolor incididunt dolore.';
+    'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
   res.send(contest);
 });
 

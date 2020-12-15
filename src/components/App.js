@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import Header from './Header';
 import ContestList from './ContestList';
 import Contest from './Contest';
@@ -9,79 +7,54 @@ import * as api from '../api';
 const pushState = (obj, url) => window.history.pushState(obj, '', url);
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = this.props.initialData;
-  }
+  state = this.props.initialData;
 
   componentDidMount() {}
-
   componentWillUnmount() {
-    console.log('WILL UNMOUNT');
-    //   // FIRE TIMERS, LISTENERS CLEAN
+    // clean timers, listeners
   }
   fetchContest = (contestId) => {
-    pushState(
-      {
-        currentContestId: contestId,
-      },
-      `/contest/${contestId}`
-    );
+    pushState({ currentContestId: contestId }, `/contest/${contestId}`);
     api.fetchContest(contestId).then((contest) => {
       this.setState({
-        pageHeader: contest.contestName,
         currentContestId: contest.id,
         contests: {
-          ...this.state.contests,
+          ...this.state.cotests,
           [contest.id]: contest,
         },
       });
     });
   };
-
-  pageHeader = () => {
+  currentContest() {
+    return this.state.contests[this.state.currentContestId];
+  }
+  pageHeader() {
     if (this.state.currentContestId) {
       return this.currentContest().contestName;
     }
-    return 'Naming Contests';
-  };
 
-  currentContest = () => {
-    return this.state.contests[this.state.currentContestId];
-  };
-  currentContent = () => {
+    return 'Naming Contests';
+  }
+  currentContent() {
     if (this.state.currentContestId) {
       return <Contest {...this.currentContest()} />;
-    } else {
-      <ContestList
-        contests={this.state.contests}
-        onContestClick={this.fetchContest}
-      />;
     }
-  };
-  render() {
-    const { contests, currentContestId } = this.state;
 
+    return (
+      <ContestList
+        onContestClick={this.fetchContest}
+        contests={this.state.contests}
+      />
+    );
+  }
+  render() {
     return (
       <div className='App'>
         <Header message={this.pageHeader()} />
-        {currentContestId ? (
-          <Contest {...this.state.contests[this.state.currentContestId]} />
-        ) : (
-          <ContestList contests={contests} onContestClick={this.fetchContest} />
-        )}
+        {this.currentContent()}
       </div>
     );
   }
 }
 
 export default App;
-
-App.propTypes = {
-  headerMessage: PropTypes.string,
-};
-
-App.defaultProps = {
-  headerMessage: 'hi',
-};

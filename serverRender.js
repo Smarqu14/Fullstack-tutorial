@@ -1,6 +1,6 @@
-// fetch data from api
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+
 import App from './src/components/App';
 
 import config from './config';
@@ -28,10 +28,14 @@ const getInitialData = (contestId, apiData) => {
 };
 
 const serverRender = (contestId) =>
-  axios.get(getApiUrl(contestId)).then((res) => {
-    const initialData = getInitialData(contestId, res.data);
-
-    return ReactDOMServer.renderToString(<App initialData={initialData} />);
+  axios.get(getApiUrl(contestId)).then((resp) => {
+    const initialData = getInitialData(contestId, resp.data);
+    return {
+      initialMarkup: ReactDOMServer.renderToString(
+        <App initialData={initialData} />
+      ),
+      initialData,
+    };
   });
 
 export default serverRender;
