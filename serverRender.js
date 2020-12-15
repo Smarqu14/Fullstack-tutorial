@@ -8,9 +8,7 @@ import axios from 'axios';
 
 const serverRender = () =>
   axios.get(`${config.serverUrl}/api/contests`).then((res) => {
-    return ReactDOMServer.renderToString(
-      <App initialContests={res.data.contests} />
-    );
+    return ReactDOMServer.renderToString(<App initialData={res.data} />);
   });
 
 export default serverRender;
