@@ -9,7 +9,11 @@ const pushState = (obj, url) => window.history.pushState(obj, '', url);
 class App extends React.Component {
   state = this.props.initialData;
 
-  componentDidMount() {}
+  componentDidMount() {
+    window.onpopstate = (event) => {
+      console.log(event);
+    };
+  }
   componentWillUnmount() {
     // clean timers, listeners
   }
@@ -25,9 +29,21 @@ class App extends React.Component {
       });
     });
   };
+  fetchContestList = () => {
+    pushState({ currentContestId: null }, `/`);
+
+    api.fetchContestList().then((contests) => {
+      this.setState({
+        currentContestId: null,
+        contests,
+      });
+    });
+  };
+
   currentContest() {
     return this.state.contests[this.state.currentContestId];
   }
+
   pageHeader() {
     if (this.state.currentContestId) {
       return this.currentContest().contestName;
@@ -35,9 +51,15 @@ class App extends React.Component {
 
     return 'Naming Contests';
   }
+
   currentContent() {
     if (this.state.currentContestId) {
-      return <Contest {...this.currentContest()} />;
+      return (
+        <Contest
+          {...this.currentContest()}
+          contestListClick={this.fetchContestList}
+        />
+      );
     }
 
     return (
@@ -47,6 +69,7 @@ class App extends React.Component {
       />
     );
   }
+
   render() {
     return (
       <div className='App'>
