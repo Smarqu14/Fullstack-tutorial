@@ -10,16 +10,16 @@ const onPopState = (handler) => (window.onpopstate = handler);
 class App extends React.Component {
   state = this.props.initialData;
 
-  componentWillUnmount() {
-    // clean timers, listeners
-  }
-
   componentDidMount() {
     onPopState((event) => {
       this.setState({
         currentContestId: (event.state || {}).currentContestId,
       });
     });
+  }
+
+  componentWillUnmount() {
+    onPopState(null);
   }
 
   fetchContest = (contestId) => {
