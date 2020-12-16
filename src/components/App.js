@@ -5,25 +5,30 @@ import Contest from './Contest';
 import * as api from '../api';
 
 const pushState = (obj, url) => window.history.pushState(obj, '', url);
+const onPopState = (handler) => (window.onpopstate = handler);
 
 class App extends React.Component {
   state = this.props.initialData;
 
-  componentDidMount() {
-    window.onpopstate = (event) => {
-      console.log(event);
-    };
-  }
   componentWillUnmount() {
     // clean timers, listeners
   }
+
+  componentDidMount() {
+    onPopState((event) => {
+      this.setState({
+        currentContestId: (event.state || {}).currentContestId,
+      });
+    });
+  }
+
   fetchContest = (contestId) => {
     pushState({ currentContestId: contestId }, `/contest/${contestId}`);
     api.fetchContest(contestId).then((contest) => {
       this.setState({
         currentContestId: contest.id,
         contests: {
-          ...this.state.cotests,
+          ...this.state.contests,
           [contest.id]: contest,
         },
       });
